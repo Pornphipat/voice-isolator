@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Isolator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Voice Isolator</h1>
+            <p>Remove background noise from your audio recordings instantly.</p>
+        </header>
+
+        <main>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="flash-messages">
+                {% for message in messages %}
+                  <p class="flash-message">{{ message }}</p>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <div class="upload-card">
+                <form id="upload-form" action="/process" method="post" enctype="multipart/form-data">
+                    <div class="file-input-wrapper">
+                        <input type="file" name="file" id="file" accept=".wav,.mp3,.m4a,.flac,.ogg" required>
+                        <label for="file" id="file-label">
+                            <span class="icon">📁</span>
+                            <span class="text">Choose an audio file...</span>
+                        </label>
+                    </div>
+                    <button type="submit" id="submit-btn">Clean Audio</button>
+                </form>
+
+                <div id="loading-spinner" class="hidden">
+                    <div class="spinner"></div>
+                    <p>Processing audio... Please wait.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Voice Isolator Tool</p>
+        </footer>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileLabel = document.getElementById('file-label').querySelector('.text');
+        const uploadForm = document.getElementById('upload-form');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const submitBtn = document.getElementById('submit-btn');
+
+        fileInput.addEventListener('change', (e) => {
+            const fileName = e.target.files[0]?.name || 'Choose an audio file...';
+            fileLabel.textContent = fileName;
+        });
+
+        uploadForm.addEventListener('submit', () => {
+            uploadForm.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

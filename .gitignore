@@ -1,0 +1,9 @@
+venv/
+uploads/
+processed/
+__pycache__/
+*.pyc
+.DS_Store
+verify_processor.py
+test_input.wav
+test_output.wav
